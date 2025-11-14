@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>🛡️ WAF Test Website</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/users" class="active">Users</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/files">Files</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h2>Users</h2>
+        
+        <form method="GET" action="/users" class="search-form">
+            <input type="text" name="id" placeholder="Enter user ID..." value="{{.UserID}}">
+            <button type="submit">Get User</button>
+        </form>
+        
+        {{if .UserID}}
+        <div class="info-box">
+            <p>Searching for user ID: <code>{{.UserID}}</code></p>
+        </div>
+        {{end}}
+        
+        <div class="user-list">
+            <h3>All Users</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .Users}}
+                    <tr>
+                        <td>{{.id}}</td>
+                        <td>{{.name}}</td>
+                        <td>{{.email}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="info-box">
+            <h4>Test SQL Injection:</h4>
+            <ul>
+                <li><code>1 OR 1=1</code></li>
+                <li><code>1' UNION SELECT * FROM users--</code></li>
+                <li><code>1'; DROP TABLE users--</code></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

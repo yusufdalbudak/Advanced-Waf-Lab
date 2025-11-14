@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+*.exe
+*.test
+*.out
+wafd
+test-website
+dashboard
+
+# Logs
+*.log
+logs/
+
+# Test files
+test/
+*_test.go
+
+# Temporary files
+tmp/
+temp/
+.DS_Store
+

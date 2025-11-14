@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waf
+  labels:
+    app: waf
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: waf
+  template:
+    metadata:
+      labels:
+        app: waf
+    spec:
+      containers:
+      - name: waf
+        image: waf:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: LOG_LEVEL
+          value: "info"
+        - name: CONFIG_PATH
+          value: "/app/configs/waf.yaml"
+        volumeMounts:
+        - name: config
+          mountPath: /app/configs
+        - name: logs
+          mountPath: /app/logs
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: config
+        configMap:
+          name: waf-config
+      - name: logs
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: waf-service
+spec:
+  selector:
+    app: waf
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: waf-config
+data:
+  waf.yaml: |
+    server:
+      listen_address: ":8080"
+      upstream_url: "http://backend-service:8081"
+    security:
+      anomaly_threshold: 10
+    logging:
+      level: "info"
+      output: "/app/logs/waf.log"
+

@@ -1,0 +1,177 @@
+# WAF Ruleset Configuration
+# Each rule defines conditions that, when matched, contribute to the anomaly score
+
+# SQL Injection Detection Rules
+- id: "SQLI-001"
+  name: "Basic SQL Injection - OR 1=1"
+  severity: 10
+  phase: "request"
+  enabled: true
+  tags: ["sqli", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(\\bor\\b\\s+1\\s*=\\s*1|union\\s+select)"
+  actions:
+    - type: "add_score"
+      param: 10
+
+- id: "SQLI-002"
+  name: "SQL Injection - UNION SELECT"
+  severity: 10
+  phase: "request"
+  enabled: true
+  tags: ["sqli", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)union\\s+(all\\s+)?select"
+  actions:
+    - type: "add_score"
+      param: 10
+
+- id: "SQLI-003"
+  name: "SQL Injection - Comment Patterns"
+  severity: 8
+  phase: "request"
+  enabled: true
+  tags: ["sqli", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(--|#|/\\*|\\*/)"
+  actions:
+    - type: "add_score"
+      param: 8
+
+# Cross-Site Scripting (XSS) Detection Rules
+- id: "XSS-001"
+  name: "XSS - Script Tag"
+  severity: 10
+  phase: "request"
+  enabled: true
+  tags: ["xss", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)<script[^>]*>"
+  actions:
+    - type: "add_score"
+      param: 10
+
+- id: "XSS-002"
+  name: "XSS - JavaScript Event Handlers"
+  severity: 8
+  phase: "request"
+  enabled: true
+  tags: ["xss", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(onerror|onclick|onload|onmouseover)\\s*="
+  actions:
+    - type: "add_score"
+      param: 8
+
+- id: "XSS-003"
+  name: "XSS - JavaScript Protocol"
+  severity: 9
+  phase: "request"
+  enabled: true
+  tags: ["xss", "injection"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)javascript:"
+  actions:
+    - type: "add_score"
+      param: 9
+
+# Path Traversal Detection Rules
+- id: "PT-001"
+  name: "Path Traversal - Directory Traversal"
+  severity: 10
+  phase: "request"
+  enabled: true
+  tags: ["path-traversal", "lfi"]
+  conditions:
+    - target: "path"
+      operator: "regex"
+      value: "(?i)(\\.\\./|\\.\\.\\\\|%2e%2e%2f|%2e%2e%5c)"
+  actions:
+    - type: "add_score"
+      param: 10
+
+- id: "PT-002"
+  name: "Path Traversal - Encoded Patterns"
+  severity: 9
+  phase: "request"
+  enabled: true
+  tags: ["path-traversal", "lfi"]
+  conditions:
+    - target: "path"
+      operator: "regex"
+      value: "(?i)(%252e%252e|%c0%ae%c0%ae)"
+  actions:
+    - type: "add_score"
+      param: 9
+
+# Command Injection Detection Rules
+- id: "CI-001"
+  name: "Command Injection - System Commands"
+  severity: 10
+  phase: "request"
+  enabled: true
+  tags: ["command-injection", "rce"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(;\\s*(ls|cat|pwd|id|whoami|uname)|\\|\\s*(ls|cat|pwd|id|whoami))"
+  actions:
+    - type: "add_score"
+      param: 10
+
+- id: "CI-002"
+  name: "Command Injection - Pipe and Semicolon"
+  severity: 8
+  phase: "request"
+  enabled: true
+  tags: ["command-injection", "rce"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(;|\\||&|`|\\$\\()"
+  actions:
+    - type: "add_score"
+      param: 8
+
+# File Inclusion Detection Rules
+- id: "FI-001"
+  name: "File Inclusion - PHP Include Patterns"
+  severity: 9
+  phase: "request"
+  enabled: true
+  tags: ["file-inclusion", "lfi", "rfi"]
+  conditions:
+    - target: "query"
+      operator: "regex"
+      value: "(?i)(etc/passwd|boot\\.ini|win\\.ini|proc/self/environ)"
+  actions:
+    - type: "add_score"
+      param: 9
+
+# HTTP Header Injection Detection Rules
+- id: "HI-001"
+  name: "Header Injection - CRLF"
+  severity: 8
+  phase: "request"
+  enabled: true
+  tags: ["header-injection", "http-splitting"]
+  conditions:
+    - target: "header"
+      operator: "regex"
+      value: "(?i)(%0d%0a|\\r\\n|%0a)"
+  actions:
+    - type: "add_score"
+      param: 8
+

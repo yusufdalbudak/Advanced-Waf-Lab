@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>🛡️ WAF Test Website</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/files" class="active">Files</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h2>File Access</h2>
+        
+        <form method="GET" action="/files" class="search-form">
+            <input type="text" name="file" placeholder="Enter file path..." value="{{.FilePath}}">
+            <button type="submit">Access File</button>
+        </form>
+        
+        {{if .FilePath}}
+        <div class="info-box">
+            <p>Requested file: <code>{{.FilePath}}</code></p>
+            <p class="warning">⚠️ This is a test site - file access is simulated</p>
+        </div>
+        {{end}}
+        
+        <div class="info-box">
+            <h4>Test Path Traversal:</h4>
+            <ul>
+                <li><code>../../../etc/passwd</code></li>
+                <li><code>..\..\..\windows\system32\config\sam</code></li>
+                <li><code>%2e%2e%2fetc%2fpasswd</code></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

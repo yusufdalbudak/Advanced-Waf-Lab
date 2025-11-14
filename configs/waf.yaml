@@ -1,0 +1,27 @@
+server:
+  listen_address: ":8080"
+  upstream_url: "http://localhost:8081"
+  read_timeout_seconds: 10
+  write_timeout_seconds: 10
+  idle_timeout_seconds: 60
+
+security:
+  anomaly_threshold: 10
+  log_request_bodies: false
+  rate_limit:
+    enabled: false
+    max_requests: 100
+    window_seconds: 60
+  ip_filter:
+    enabled: false
+    whitelist: []
+    blacklist: []
+
+logging:
+  level: "info"
+  output: "waf.log"
+
+rules:
+  files:
+    - "configs/ruleset.yaml"
+

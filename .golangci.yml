@@ -1,0 +1,81 @@
+# GolangCI-Lint Configuration
+# Professional code quality standards
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+  gocyclo:
+    min-complexity: 15
+  goimports:
+    local-prefixes: github.com/waf-draft/waf
+  golint:
+    min-confidence: 0
+  govet:
+    check-shadowing: true
+  lll:
+    line-length: 120
+  maligned:
+    suggest-new: true
+  misspell:
+    locale: US
+  nolintlint:
+    allow-leading-space: true
+    allow-unused: false
+    require-explanation: false
+    require-specific: false
+
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gofmt
+    - goimports
+    - gosec
+    - goconst
+    - gocyclo
+    - misspell
+    - lll
+    - unparam
+    - gocritic
+    - exportloopref
+    - exhaustive
+    - gocognit
+    - goerr113
+    - gomnd
+    - goprintffuncname
+    - noctx
+    - rowserrcheck
+    - sqlclosecheck
+    - thelper
+    - unconvert
+    - unparam
+    - wastedassign
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gocyclo
+        - gocognit
+    - path: cmd/
+      linters:
+        - gocyclo
+  max-issues-per-linter: 0
+  max-same-issues: 0
+

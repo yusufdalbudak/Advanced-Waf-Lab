@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Execution</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>🛡️ WAF Test Website</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/files">Files</a></li>
+                <li><a href="/upload">Upload</a></li>
+                <li><a href="/command" class="active">Command</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h2>Command Execution</h2>
+        
+        <form method="GET" action="/command" class="search-form">
+            <input type="text" name="cmd" placeholder="Enter command..." value="{{.Command}}">
+            <button type="submit">Execute</button>
+        </form>
+        
+        {{if .Command}}
+        <div class="info-box">
+            <p>Command: <code>{{.Command}}</code></p>
+            <p class="warning">⚠️ This is a test site - command execution is simulated</p>
+        </div>
+        {{end}}
+        
+        <div class="info-box">
+            <h4>Test Command Injection:</h4>
+            <ul>
+                <li><code>; ls -la</code></li>
+                <li><code>| cat /etc/passwd</code></li>
+                <li><code>&amp;&amp; whoami</code></li>
+                <li><code>`id`</code></li>
+                <li><code>$(uname -a)</code></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

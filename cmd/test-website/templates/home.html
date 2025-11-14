@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>🛡️ WAF Test Website</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/files">Files</a></li>
+                <li><a href="/upload">Upload</a></li>
+                <li><a href="/command">Command</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h2>Welcome to the WAF Test Website</h2>
+            <p>This is a vulnerable test application designed to test Web Application Firewall (WAF) rules.</p>
+            <p><strong>⚠️ Warning:</strong> This site is intentionally vulnerable for testing purposes only!</p>
+        </div>
+        
+        <div class="cards">
+            <div class="card">
+                <h3>🔍 Search</h3>
+                <p>Test XSS and injection attacks in search queries</p>
+                <a href="/search" class="btn">Try Search</a>
+            </div>
+            
+            <div class="card">
+                <h3>👥 Users</h3>
+                <p>Test SQL injection in user ID parameters</p>
+                <a href="/users" class="btn">View Users</a>
+            </div>
+            
+            <div class="card">
+                <h3>🔐 Login</h3>
+                <p>Test authentication bypass attempts</p>
+                <a href="/login" class="btn">Login Page</a>
+            </div>
+            
+            <div class="card">
+                <h3>📁 Files</h3>
+                <p>Test path traversal attacks</p>
+                <a href="/files" class="btn">File Access</a>
+            </div>
+            
+            <div class="card">
+                <h3>📤 Upload</h3>
+                <p>Test file upload vulnerabilities</p>
+                <a href="/upload" class="btn">Upload Files</a>
+            </div>
+            
+            <div class="card">
+                <h3>⚡ Command</h3>
+                <p>Test command injection attacks</p>
+                <a href="/command" class="btn">Command Exec</a>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3>Test Scenarios</h3>
+            <ul>
+                <li><strong>SQL Injection:</strong> Try <code>?id=1 OR 1=1</code> in the users page</li>
+                <li><strong>XSS:</strong> Try <code>?q=&lt;script&gt;alert('XSS')&lt;/script&gt;</code> in search</li>
+                <li><strong>Path Traversal:</strong> Try <code>?file=../../../etc/passwd</code> in files</li>
+                <li><strong>Command Injection:</strong> Try <code>?cmd=; ls -la</code> in command page</li>
+                <li><strong>File Upload:</strong> Try uploading PHP shell or malicious files</li>
+                <li><strong>LDAP Injection:</strong> Try <code>admin)(&(password=*))</code> in login</li>
+                <li><strong>XXE:</strong> Try XML external entity injection in uploads</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Server Time: {{.Time}}</p>
+            <p>This site is protected by a WAF running on port 8080</p>
+        </div>
+    </div>
+</body>
+</html>
+
