@@ -24,7 +24,7 @@ A production-inspired, modular Web Application Firewall (WAF) implemented in Go.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/yusufdalbudak/Advanced-Waf-Lab
 cd WAF-DRAFT
 ```
 
