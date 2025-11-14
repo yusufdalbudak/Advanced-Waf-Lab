@@ -301,9 +301,6 @@ This is an MVP implementation. Future enhancements could include:
 
 This is a draft/prototype implementation. Contributions and improvements are welcome!
 
-## License
-
-[Specify your license here]
 
 ## Acknowledgments
 
